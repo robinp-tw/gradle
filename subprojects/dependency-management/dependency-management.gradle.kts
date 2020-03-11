@@ -136,6 +136,14 @@ tasks.classpathManifest {
     additionalProjects.add(":runtimeApiInfo")
 }
 
+tasks.clean {
+    doFirst {
+        fileTree("$buildDir/tmp/test files").matching {
+            include("**/read-only-cache/**")
+        }.visit { this.file.setWritable(true) }
+    }
+}
+
 afterEvaluate {
     // This is a workaround for the validate plugins task trying to inspect classes which
     // have changed but are NOT tasks
